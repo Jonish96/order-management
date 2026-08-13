@@ -1,5 +1,7 @@
 package com.paryogsaala.ordermanagement;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,17 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
-    List<User> userList = new ArrayList<>();
+
+    private final UserService userService;
 
     @GetMapping("/api/users")
     public List<User> getAllUsers() {
-        return userList;
+        return userService.getAllUsers();
     }
 
     @PostMapping("/api/users")
-    public List<User> createUser(@RequestBody User user) {
-        userList.add(user);
-        return userList;
+    public String createUser(@RequestBody User user) {
+        userService.addUser(user);
+        return "User created!";
     }
 }
